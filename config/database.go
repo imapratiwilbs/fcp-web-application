@@ -18,13 +18,13 @@ func GetenvInt(envName string) int {
 }
 
 type config struct {
-	AppPort 	string
-	DBHost 		string
-	DBUsername 	string
-	DBPassword 	string
-	DBName 		string
-	DBPort 		int
-	JWTKey 		[]byte
+	AppPort    string
+	DBHost     string
+	DBUsername string
+	DBPassword string
+	DBName     string
+	DBPort     int
+	JWTKey     []byte
 }
 
 var Config *config
@@ -32,18 +32,18 @@ var Config *config
 func Init() {
 	err := godotenv.Load()
 	if err != nil {
-	log.Printf("error loading .env file: %v\n", err)
+		log.Printf("error loading .env file: %v\n", err)
 	}
 
-	if Config != nil {
+	if Config == nil {
 		Config = &config{
-			AppPort:	os.Getenv("PORT"),
-			DBHost:		os.Getenv("DB_HOST"),
+			AppPort:    os.Getenv("PORT"),
+			DBHost:     os.Getenv("DB_HOST"),
 			DBUsername: os.Getenv("DB_USERNAME"),
 			DBPassword: os.Getenv("DB_PASSWORD"),
-			DBName:		os.Getenv("DB_NAME"),
-			DBPort:		GetenvInt("DB_PORT"),
-			JWTKey:		[]byte(os.Getenv("JWT_SECRET")),
+			DBName:     os.Getenv("DB_NAME"),
+			DBPort:     GetenvInt("DB_PORT"),
+			JWTKey:     []byte(os.Getenv("JWT_SECRET")),
 		}
 	}
-}	
+}
