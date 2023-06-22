@@ -4,8 +4,6 @@ import (
 	"a21hc3NpZ25tZW50/model"
 	"a21hc3NpZ25tZW50/service"
 	"net/http"
-	"time"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -73,14 +71,11 @@ func (u *userAPI) Login(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, model.NewErrorResponse("error internal server"))
 		return
 	}
-	expirationTime := time.Now().Add(5 * time.Minute)
 
-	http.SetCookie(c.Writer, &http.Cookie{
-		Name:    "session_token",
-		Value:   *token,
-		Expires: expirationTime,
-	})
-
+	expirationTime := 20 * 1000000000
+	
+	c.SetCookie("session_token", *token, expirationTime, "", "",false,true)
+	
 	c.JSON(http.StatusOK, model.NewSuccessResponse("login success"))
 
 }
